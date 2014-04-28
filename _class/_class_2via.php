@@ -1,4 +1,16 @@
-<?php
+<?
+
+
+ /**
+  * 2via
+  * @author Willian Fellipe Laynes  (Analista-Desenvolvedor)
+  * @copyright Copyright (c) 2014 - sisDOC.com.br
+  * @access public
+  * @version v.0.14.18
+  * @package Classe
+  * @subpackage -
+ */
+ 
 class segunda_via
 	{
 		var $cliente;
@@ -44,7 +56,7 @@ class segunda_via
 			
 			if ($col >= $colm)
 				{$sx .= '<TR>'; $col = 0; }
-			$sx .= '<TD align="center" bgcolor="#F0F0F0">';
+			$sx .= '<TD align="center" bgcolor="#F2F2F2">';
 			$sx .= $link;
 			$sx .= $lojas[$line[3]];
 			$sx .= '(';
