@@ -236,7 +236,7 @@ class header
 				$ger = $this->menus_gerencial();
 				$ger = 'Gerencial<BR>'.$ger.'<BR>';
 				}
-			if ($perfil->valid('#ADM#CMK#AUF#COJ#COM#COO#COS#GER#GEG#GEC#CPR'))
+			if ($perfil->valid('#ADM#CMK#AUF#FIN#COJ#COM#COO#COS#GER#GEG#GEC#CPR'))
 				{
 				$comp = $this->menus_compras();
 				$comp = 'Compras/Pedidos<BR>'.$comp.'<BR>';
