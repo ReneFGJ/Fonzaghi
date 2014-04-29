@@ -37,6 +37,26 @@ class avaliacao
 	var $ano;
 	//métodos
 	
+	function historico($cracha)
+	{
+		$sql = "select * from aval_historico
+				where aval_fucionario='".$cracha."' and
+					  aval_status='1'
+					
+		";
+		$rlt = db_query($sql);
+		$sx = '<center><h1>Histórico do funcionário</h1>';
+		$sx .= '<table>';
+		while ($line = db_read($rlt))
+		{
+			$sx .= '<tr><td align="left">Criado em :</td><td align="center">'.$line['avh_data'].'</td></tr>';
+			$sx .= '<tr><td align="left">Lançado por :</td><td align="center">'.$line['avh_log'].'</td></tr>';	
+			$sx .= '<tr><td colspan="2">'.$line['avh_observacao'].'</td></tr>';
+		}
+		$sx .= '</table></center>';
+		return($sx);
+	}
+	
 	function le_competencia($comp)
 	{
 		$sql = "select * from aval_competencia
