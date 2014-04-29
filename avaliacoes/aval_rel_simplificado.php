@@ -38,21 +38,19 @@ $aval->ano = $dd[2];
 $tela = $form->editar($cp,'');
 if ($form->saved > 0)
     {
-	    echo '<table class="noprint" width="98%"><tr>
-        		<td width="50%">'.$tela.$aval->relatorio_simplificado($funcionario).'</td>
-        		<td align="50%">'.$aval->historico($funcionario).'</td>
-        	 </tr></table>';
-        
-        
-        
+    	echo '<table class="noprint" width="98%">
+	    		<tr><td>'.$tela.$aval->relatorio_simplificado($funcionario).'</td>
+        		<td valign="top"><h1>Histórico do funcionário</h1>'.$aval->historico_box().'<br>
+        		'.$aval->historico($funcionario).'</td></tr>
+        	 </table>';
+
     }else{
-        echo '<table class="noprint" width="98%"><tr>
-        		<td align="50%">'.$tela.'</td>
-        		<td align="50%">'.$aval->historico($funcionario).'</td>
-        	 </tr></table>';
+        echo '<table class="noprint" width="98%">
+        		<tr><td>'.$tela.'</td></tr>
+        	 </table>';
         
     }
-
+echo $aval->js;
 /* Rodape */
 echo $hd->foot();
 ?>

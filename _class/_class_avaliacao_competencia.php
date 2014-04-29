@@ -5,7 +5,7 @@
      * @author Willian Fellipe Laynes <willianlaynes@hotmail.com>
      * @copyright Copyright (c) 2013 - sisDOC.com.br
      * @access public
-     * @version v.0.14.14
+     * @version v.0.14.18
      * @package avaliacao
      * @subpackage classe
     */
@@ -39,26 +39,110 @@ class avaliacao
 	
 	function historico($cracha)
 	{
+		global $base_name,$base_server,$base_host,$base_user,$user,$dd;
+        require("../db_206_rh.php");
 		$sql = "select * from aval_historico
-				where aval_fucionario='".$cracha."' and
-					  aval_status='1'
-					
+				where avh_funcionario='".$cracha."' and
+					  avh_status='1'
+				order by id_avh desc , avh_data 
 		";
 		$rlt = db_query($sql);
-		$sx = '<center><h1>Histórico do funcionário</h1>';
-		$sx .= '<table>';
+		$sx = '<center><div id="aval_hist_nv" href="#" style="display: inline;"><a class="botao-geral" height="50px" >Novo</a></div>
+						<div id="aval_hist_save" href="#" style="display: none;"><a class="botao-geral" height="50px">Salvar</a></div>
+						';
+		$sx .= '<br><br><div style="overflow:scroll; height:600px;">';
+		$this->js .= '<script>';
 		while ($line = db_read($rlt))
 		{
-			$sx .= '<tr><td align="left">Criado em :</td><td align="center">'.$line['avh_data'].'</td></tr>';
-			$sx .= '<tr><td align="left">Lançado por :</td><td align="center">'.$line['avh_log'].'</td></tr>';	
-			$sx .= '<tr><td colspan="2">'.$line['avh_observacao'].'</td></tr>';
+			$id = $line['id_avh'];
+			$sx .= '<div id="id_1tbhist'.$id.'" class="botao-geral" align="left">'.date('d-m-Y', strtotime($line['avh_data'])).' - '.$line['avh_log'].'<img id="id_hist'.$id.'" src="../ico/cancel.png" height="15" align="right"></div>';
+			$sx .= '<div id="id_2tbhist'.$id.'" class="tabela01">'.$line['avh_observacao'].'</div><br>';
+			
+			$this->js .= '	$("#id_hist'.$id.'").click(function(){
+									$("#id_1tbhist'.$id.'").hide();
+									$("#id_2tbhist'.$id.'").hide();
+									
+									$.ajax({
+										type: "POST",
+										url: "aval_js.php",
+										data: { dd0:"cancel", dd1:'.$id.'}
+									}).done(function( data ) { $("#aval_hist_saved").html( data ); });
+
+							})
+			';						
 		}
-		$sx .= '</table></center>';
+		$this->js .= '</script>';
+		$sx .= '</div></center>';
+		$this->js .= '<script>
+								$("#aval_hist_nv").click(function(){
+										$("#aval_hist_box").show();
+										$("#aval_hist_nv").hide();
+										$("#aval_hist_save").show();
+									})
+								$("#aval_hist_save").click(function(){
+										$("#aval_hist_box").hide();
+										$("#aval_hist_nv").show();
+										$("#aval_hist_save").hide();
+									
+										/* Ajax Inicial */
+									var aval_obs = $("#aval_hist_box1").val();
+									alert(aval_obs); 
+									$.ajax({
+										type: "POST",
+										url: "aval_js.php",
+										data: { dd0:"save", dd1:"'.$dd[3].'", dd2:aval_obs }
+									}).done(function( data ) { $("#aval_hist_saved").html( data ); });
+										
+								})
+								</script>';
 		return($sx);
 	}
-	
+	function historico_save($funcionario,$obs)
+	{
+		global $base_name,$base_server,$base_host,$base_user,$user;
+        require("../db_206_rh.php");
+			  $avh_funcionario = $funcionario;
+			  $avh_log_cracha = $user->user_cracha;
+			  $avh_log = $user->user_log;
+			  $avh_data = date('Ymd');
+			  $avh_observacao = trim($obs);
+  
+		$sx = "insert into aval_historico
+				( avh_funcionario, avh_log_cracha, avh_log,
+				  avh_data, avh_observacao)
+				values 
+				('$avh_funcionario', '$avh_log_cracha', '$avh_log',
+				 '$avh_data', '$avh_observacao')	  
+		";
+		$rlt = db_query($sx);
+		
+		return(1);
+	}
+	function historico_cancel($id)
+	{
+		global $base_name,$base_server,$base_host,$base_user,$user;
+        require("../db_206_rh.php");
+			  
+		$sx = "update aval_historico 
+				set avh_status='0'
+				where id_avh=".$id."
+			";
+		$rlt = db_query($sx);
+		
+		return(1);
+	}
+	function historico_box()
+	{
+		$sx = '<center><div id="aval_hist_box" style="display: none;">
+				<textarea id="aval_hist_box1" rows="5" cols="50"></textarea>		
+				</div><div id="aval_hist_saved"></div>
+				<center>';			
+		return($sx);
+	}
 	function le_competencia($comp)
 	{
+		global $base_name,$base_server,$base_host,$base_user,$user;
+        require("../db_206_rh.php");
 		$sql = "select * from aval_competencia
 				where ac_condigo='".$comp."'
 		";
