@@ -4,6 +4,7 @@
  /**
   * 2via
   * @author Willian Fellipe Laynes  (Analista-Desenvolvedor)
+  * @author Rene Faustino Gabriel Junior <renefgj@gmail.com>
   * @copyright Copyright (c) 2014 - sisDOC.com.br
   * @access public
   * @version v.0.14.18
@@ -28,9 +29,9 @@ class segunda_via
 		$colm = 5;
 		$xdia = 19000101;
 		$lojas = array(
-				'M'=>'Modas', 'J'=>'Joias','O'=>'Óculos',
+				'M'=>'Modas', 'J'=>'Joias','O'=>'ï¿½culos',
 				'S'=>'Sensual', 'E'=>'Modas Express',
-				'G'=>'Jóias Express', 'U'=>'UseBrilhe'
+				'G'=>'Jï¿½ias Express', 'U'=>'UseBrilhe'
 		);
 		for ($r=0;$r < count($rst);$r++)
 			{
